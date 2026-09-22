@@ -3,7 +3,7 @@ name: Github Action for checking Norminette, Compiling Process and Memory Leaks
 on:
   push:
     branches: [main]
-  pull_requets:
+  pull_requests:
     branches: [main]
   
 jobs:
