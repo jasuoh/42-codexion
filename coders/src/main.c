@@ -1,0 +1,10 @@
+#include "../include/codexion.h"
+
+int main(int argc, char **argv)
+{
+    printf("%s\n", "Hello, World!");
+    for (int i = 1; i < argc; i++)
+    {
+        printf("%s\n", argv[i]);
+    }
+}
