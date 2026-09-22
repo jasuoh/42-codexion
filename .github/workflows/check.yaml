@@ -1,0 +1,19 @@
+name: Github Action for checking Norminette, Compiling Process and Memory Leaks
+
+on:
+  push:
+    branches: [main]
+  pull_requets:
+    branches: [main]
+  
+jobs:
+  test:
+    runs-on: ubuntu-latests
+
+    steps:
+      -name: Checkout code
+      -uses: action/checkout@v2
+      -name: Set up a C Compiler
+      run: sudo apt-get install -y gcc make
+      run: make
+
