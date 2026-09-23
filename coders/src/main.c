@@ -1,10 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jawosylu <jawosylu@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/23 11:19:19 by jawosylu          #+#    #+#             */
+/*   Updated: 2026/09/23 11:29:51 by jawosylu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/codexion.h"
 
-int main(int argc, char **argv)
+int	main(void)
 {
-    printf("%s\n", "Hello, World!");
-    for (int i = 1; i < argc; i++)
-    {
-        printf("%s\n", argv[i]);
-    }
+	printf("Hello, World!\n");
 }
