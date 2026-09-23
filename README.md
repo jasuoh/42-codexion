@@ -28,6 +28,14 @@ Cons:
 - shared memory
 
 
+Mutexes:
+Description:
+Good Example is sharing a notebook with a friend and trying to write in it at the same time. It will just get 
+messy and you probably overwrite and get problems. To avoid this only one person is writing at a time and then the other one.
+Thats the idea behind mutexes for threads.
+
+
+
 Pthread(Posix threads)
 
 Notes:
@@ -59,7 +67,9 @@ pthread_join
 
 pthread_mutex_init - proecting dongle state with pthread_muted_t, pthread_cond_t manage waiting queues 
 https://en.wikipedia.org/wiki/Lock_(computer_science)
-pthread_mutex_lock
+
+lock the mutex then do the function and then unlock so only one thread is kinda working on one var, func
+pthread_mutex_lock 
 pthread_mutex_unlock
 pthread_mutex_destroy
 
