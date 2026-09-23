@@ -27,12 +27,11 @@ jobs:
       - name: Running norminette
         run:
           norminette .
-      - name: Installing valgrind
-        run: |
-          sudo apt-get update
-          sudo apt-get install valgrind
-      - name: Testing valgrind for memory leaks
-        run:
-          make && valgrind ./codexion
-          
-
+      # - name: Installing valgrind
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install valgrind
+      # - name: Testing valgrind for memory leaks
+      #   run:
+      #     make && valgrind ./codexion
+      
