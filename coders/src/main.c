@@ -6,13 +6,16 @@
 /*   By: jawosylu <jawosylu@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/23 11:19:19 by jawosylu          #+#    #+#             */
-/*   Updated: 2026/09/23 11:29:51 by jawosylu         ###   ########.fr       */
+/*   Updated: 2026/09/23 15:22:04 by jawosylu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/codexion.h"
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	printf("Hello, World!\n");
+	if (check_args(argc, argv))
+		printf("kein error\n");
+	else
+		printf("error");
 }

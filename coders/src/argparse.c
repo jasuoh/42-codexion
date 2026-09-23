@@ -6,7 +6,7 @@
 /*   By: jawosylu <jawosylu@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/23 11:41:34 by jawosylu          #+#    #+#             */
-/*   Updated: 2026/09/23 15:08:16 by jawosylu         ###   ########.fr       */
+/*   Updated: 2026/09/23 15:32:23 by jawosylu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_digit(char *str)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (i < strlen(str))
@@ -30,9 +30,9 @@ int	check_args(int argc, char **argv)
 {
 	int	i;
 
+	i = 1;
 	if (argc != 9)
 		return (0);
-	i = 1;
 	while (i < argc - 1)
 	{
 		if (is_digit(argv[i]))
@@ -40,7 +40,7 @@ int	check_args(int argc, char **argv)
 		else
 			return (0);
 	}
-	if (!((strcmp(argv[8], "FIFO") || (strcmp(argv[8], "EDF")))))
+	if ((strcmp(argv[8], "fifo") != 0) && (strcmp(argv[8], "edf") != 0))
 		return (0);
 	return (1);
 }
@@ -48,14 +48,8 @@ int	check_args(int argc, char **argv)
 	Iniializing the config the the passed args on the CL
 	*/
 
-t_config	init_config(char **argv)
+void	init_config(char **argv)
 {
-	int	i;
-
-	i = 1;
-}
-
-int	main(int argc, char **argv)
-{
-	printf("%d\n", check_args(argc, argv));
+	if (argv)
+		printf("Hello");
 }
