@@ -44,12 +44,16 @@ int	check_args(int argc, char **argv)
 		return (0);
 	return (1);
 }
-	/*
-	Iniializing the config the the passed args on the CL
-	*/
 
-void	init_config(char **argv)
+/*
+Iniializing the config the the passed args on the CL
+*/
+
+t_config	*init_config(char **argv)
 {
-	if (argv)
-		printf("Hello");
+	t_config	*config;
+	config = malloc(sizeof(t_config));
+	if (!config)
+		return (NULL);
+	
 }

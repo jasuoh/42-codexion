@@ -15,7 +15,7 @@
 int	main(int argc, char **argv)
 {
 	if (check_args(argc, argv))
-		printf("kein error\n");
+		return 1;
 	else
-		printf("error");
+		return (0);
 }
