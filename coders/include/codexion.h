@@ -6,13 +6,12 @@
 /*   By: jawosylu <jawosylu@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/23 11:19:09 by jawosylu          #+#    #+#             */
-/*   Updated: 2026/09/23 11:27:08 by jawosylu         ###   ########.fr       */
+/*   Updated: 2026/09/23 14:55:36 by jawosylu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CODEXION_H
 # define CODEXION_H
-
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -20,7 +19,7 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-typedef struct s_conf
+typedef struct s_config
 {
 	int		nb_of_coders;
 	int		time_to_burnout;
@@ -31,6 +30,18 @@ typedef struct s_conf
 	int		dongle_cooldown;
 	char	*scheduler;
 
-}	t_conf;
+}	t_config;
+
+typedef struct s_coder
+{
+	pthread_t	thread;
+	int			id;
+	int			times_compiled;
+	size_t		time_to_burnout;
+	size_t		time_to_compile;
+	size_t		time_to_refactor;
+	size_t		start_time;
+
+}	t_coder;
 
 #endif 
