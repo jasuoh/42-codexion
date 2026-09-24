@@ -6,7 +6,7 @@
 /*   By: jawosylu <jawosylu@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/23 11:19:09 by jawosylu          #+#    #+#             */
-/*   Updated: 2026/09/23 15:14:07 by jawosylu         ###   ########.fr       */
+/*   Updated: 2026/09/23 21:07:21 by jawosylu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_coder
 
 }	t_coder;
 
-int	check_args(int argc, char **argv);
+int			check_args(int argc, char **argv);
+t_config	*init_config(char **argv);
 
 #endif 

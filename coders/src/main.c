@@ -6,7 +6,7 @@
 /*   By: jawosylu <jawosylu@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/23 11:19:19 by jawosylu          #+#    #+#             */
-/*   Updated: 2026/09/23 15:22:04 by jawosylu         ###   ########.fr       */
+/*   Updated: 2026/09/23 21:08:53 by jawosylu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,13 @@
 
 int	main(int argc, char **argv)
 {
+	t_config	*config;
+
 	if (check_args(argc, argv))
-		return 1;
+		config = init_config(argv);
 	else
 		return (0);
+	printf("%d\n", config->nb_of_coders);
+	free(config->scheduler);
+	free(config);
 }
