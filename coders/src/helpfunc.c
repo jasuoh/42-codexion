@@ -14,14 +14,16 @@
 
 void	free_and_exit(t_config *config)
 {
-	if (*config.scheduler)
-		free(config.scheduler);
+	// destroy the threads and mutexes
 	if (config)
 		free(config);
 }
 
 
-int main(void)
+long	get_time_in_ms(void)
 {
-	printf("Hello, World!\n");
+	struct timeval	ct;
+
+	gettimeofday(&ct, NULL);
+	return (ct.tv_sec * 1000 + ct.tv_usec / 1000);
 }

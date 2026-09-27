@@ -4,6 +4,10 @@ CFLAGS = -Wall -Wextra -Werror
 INCLUDE = coders/include/codexion.h
 
 SRC = coders/src/argparse.c \
+	coders/src/helpfunc.c \
+	coders/src/init.c \
+	coders/src/routine.c \
+
 
 OBJ = $(SRC:.c=.o)
 

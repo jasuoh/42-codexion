@@ -20,7 +20,5 @@ int	main(int argc, char **argv)
 		config = init_config(argv);
 	else
 		return (0);
-	printf("%d\n", config->nb_of_coders);
-	free(config->scheduler);
 	free(config);
 }

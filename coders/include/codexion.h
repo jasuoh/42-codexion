@@ -12,12 +12,52 @@
 
 #ifndef CODEXION_H
 # define CODEXION_H
+
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <pthread.h>
 # include <sys/time.h>
 # include <unistd.h>
+
+# define SUCESS 1
+# define FAIL 0
+
+# define USED 1
+# define FREE 0
+
+# define FIFO 1
+# define EDF 0
+
+typedef struct s_config t_config;
+typedef struct s_dongle t_dongle;
+
+typedef struct s_coder
+{
+	pthread_t	thread;
+	int			id;
+	int			times_compiled;
+	size_t		start_time;
+	t_config *config;
+	t_dongle *left;
+	t_dongle *right;
+
+}	t_coder;
+
+typedef struct s_dongle
+{
+	int	id;
+	int available;
+	pthread_mutex_t mutex_dongle;
+	int cooldown;
+	t_request requests[2];
+
+}	t_dongle;
+
+typedef struct s_request
+{
+	
+}	t_request;
 
 typedef struct s_config
 {
@@ -28,23 +68,17 @@ typedef struct s_config
 	int		time_to_refactor;
 	int		number_of_compiles_required;
 	int		dongle_cooldown;
-	char	*scheduler;
+	int		scheduler;
+	t_coder *coders;
+	t_dongle *dongles;
 
 }	t_config;
 
-typedef struct s_coder
-{
-	pthread_t	thread;
-	int			id;
-	int			times_compiled;
-	size_t		time_to_burnout;
-	size_t		time_to_compile;
-	size_t		time_to_refactor;
-	size_t		start_time;
-
-}	t_coder;
 
 int			check_args(int argc, char **argv);
 t_config	*init_config(char **argv);
+void		free_and_exit(t_config *config);
+void		*normal_routine(void *arg);
+long		get_time_in_ms(void);
 
-#endif 
+#endif

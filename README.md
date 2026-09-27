@@ -134,3 +134,6 @@ some yt videos i came across my jorney of research;
 - https://www.youtube.com/watch?v=K1aoimUYTK8
 - https://www.youtube.com/watch?v=oq29KUy29iQ&list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2&index=5
 - https://www.youtube.com/watch?v=raLCgPK-Igc&t=424s
+
+
+check for leaks at macos: leaks -atExit -- ./a.out

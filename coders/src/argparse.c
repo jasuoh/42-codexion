@@ -45,9 +45,6 @@ int	check_args(int argc, char **argv)
 	return (1);
 }
 
-/*
-Iniializing the config the the passed args on the CL
-*/
 
 t_config	*init_config(char **argv)
 {
@@ -63,8 +60,9 @@ t_config	*init_config(char **argv)
 	config->time_to_refactor = atoi(argv[5]);
 	config->number_of_compiles_required = atoi(argv[6]);
 	config->dongle_cooldown = atoi(argv[7]);
-	config->scheduler = malloc(sizeof(char) * strlen(argv[8]));
-	if (!config->scheduler)
-		return (free(config), NULL);
+	if (strcmp(argv[8], "fifo"))
+		config->scheduler = FIFO;
+	else
+		config->scheduler = EDF;
 	return (config);
 }
