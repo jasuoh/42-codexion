@@ -123,7 +123,7 @@ TODO:
     gutes pdf zu multithreading und mutexes zur prevetion von race conds
 - https://en.wikipedia.org/wiki/Dining_philosophers_problem
 - https://www.geeksforgeeks.org/operating-systems/dining-philosophers-problem/
-- https://dev.to/vivekyadav200988/mastering-multithreading-in-c-programming-a-deep-dive-with-in-depth-explanations-and-advanced-concepts-245g
+-   
 - https://www.codewithc.in/tutorials/multithreading
 - https://www.baeldung.com/java-dining-philoshophers
 some yt videos i came across my jorney of research;
@@ -134,6 +134,7 @@ some yt videos i came across my jorney of research;
 - https://www.youtube.com/watch?v=K1aoimUYTK8
 - https://www.youtube.com/watch?v=oq29KUy29iQ&list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2&index=5
 - https://www.youtube.com/watch?v=raLCgPK-Igc&t=424s
-
+- https://clang.llvm.org/docs/ThreadSanitizer.html
+- https://www.geeksforgeeks.org/linux-unix/condition-wait-signal-multi-threading/
 
 check for leaks at macos: leaks -atExit -- ./a.out

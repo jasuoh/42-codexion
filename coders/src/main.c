@@ -20,5 +20,6 @@ int	main(int argc, char **argv)
 		config = init_config(argv);
 	else
 		return (0);
+	
 	free(config);
 }

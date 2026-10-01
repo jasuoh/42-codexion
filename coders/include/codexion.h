@@ -29,6 +29,8 @@
 # define FIFO 1
 # define EDF 0
 
+typedef struct s_coder t_coder;
+typedef struct s_request t_request;
 typedef struct s_config t_config;
 typedef struct s_dongle t_dongle;
 
@@ -37,12 +39,19 @@ typedef struct s_coder
 	pthread_t	thread;
 	int			id;
 	int			times_compiled;
-	size_t		start_time;
+	size_t		time;
 	t_config *config;
 	t_dongle *left;
 	t_dongle *right;
 
 }	t_coder;
+
+typedef struct s_request
+{
+	t_coder *coder;
+	size_t arrival_time;
+
+}	t_request;
 
 typedef struct s_dongle
 {
@@ -54,10 +63,6 @@ typedef struct s_dongle
 
 }	t_dongle;
 
-typedef struct s_request
-{
-	
-}	t_request;
 
 typedef struct s_config
 {
