@@ -53,3 +53,9 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+#project requiirements
+codexion
+
+# python venv (norminette)
+venv/

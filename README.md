@@ -114,8 +114,27 @@ Sources for README.md:
 - https://en.wikipedia.org/wiki/Pthreads (Example Introduction into threads using the pthreads lib)
 - https://en.wikipedia.org/wiki/POSIX (Interesting article about the Creators behind the POSIX (Portable Operating System Interface IEEE))
 
-TODO: 
-- https://embeddedprep.com/posix-threads-pthread/ lesen
+TODO:
 - https://dev.to/emanuelgustafzon/mastering-concurrency-in-c-with-pthreads-a-comprehensive-guide-56je 
 - https://randu.org/tutorials/threads/
 - https://www.geeksforgeeks.org/c/thread-functions-in-c-c/
+
+-  https://web.stanford.edu/class/archive/cs/cs110/cs110.1202/static/lectures/11-multithreading-cvs-semaphores.pdf 
+    gutes pdf zu multithreading und mutexes zur prevetion von race conds
+- https://en.wikipedia.org/wiki/Dining_philosophers_problem
+- https://www.geeksforgeeks.org/operating-systems/dining-philosophers-problem/
+-   
+- https://www.codewithc.in/tutorials/multithreading
+- https://www.baeldung.com/java-dining-philoshophers
+some yt videos i came across my jorney of research;
+- https://www.youtube.com/watch?v=LOfGJcVnvAk
+- https://www.youtube.com/watch?v=ldJ8WGZVXZk
+- https://www.youtube.com/watch?v=d9s_d28yJq0&list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2 
+- https://www.youtube.com/watch?v=FY9livorrJI&list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2&index=4
+- https://www.youtube.com/watch?v=K1aoimUYTK8
+- https://www.youtube.com/watch?v=oq29KUy29iQ&list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2&index=5
+- https://www.youtube.com/watch?v=raLCgPK-Igc&t=424s
+- https://clang.llvm.org/docs/ThreadSanitizer.html
+- https://www.geeksforgeeks.org/linux-unix/condition-wait-signal-multi-threading/
+
+check for leaks at macos: leaks -atExit -- ./a.out

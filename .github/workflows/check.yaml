@@ -18,7 +18,7 @@ jobs:
           sudo apt-get install -y gcc make
       - name: Compiling Process
         run:
-          make
+          make -C coders
       - name: Installing norminette
         run: |
           sudo apt-get update
@@ -26,7 +26,7 @@ jobs:
           python3 -m pip install -U norminette
       - name: Running norminette
         run:
-          norminette .
+          norminette coders
       # - name: Installing valgrind
       #   run: |
       #     sudo apt-get update
