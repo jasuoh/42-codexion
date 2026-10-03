@@ -12,13 +12,31 @@
 
 #include "../include/codexion.h"
 
-void	free_and_exit(t_config *config)
+/* only destroys what was initialized (see *_ready) -> safe after half init */
+void	cleanup(t_config *config)
 {
-	// destroy the threads and mutexes
-	if (config)
-		free(config);
-}
+	int	i;
 
+	if (!config)
+		return ;
+	i = 0;
+	while (i < config->coders_ready)
+		pthread_mutex_destroy(&config->coders[i++].state_mutex);
+	free(config->coders);
+	i = 0;
+	while (i < config->dongles_ready)
+	{
+		pthread_mutex_destroy(&config->dongles[i].mutex);
+		pthread_cond_destroy(&config->dongles[i].cond);
+		i++;
+	}
+	free(config->dongles);
+	if (config->mutexes_ready >= 1)
+		pthread_mutex_destroy(&config->print_mutex);
+	if (config->mutexes_ready >= 2)
+		pthread_mutex_destroy(&config->sim_mutex);
+	free(config);
+}
 
 long	get_time_in_ms(void)
 {
