@@ -56,3 +56,6 @@ dkms.conf
 
 #project requiirements
 codexion
+
+# python venv (norminette)
+venv/
