@@ -6,7 +6,7 @@
 /*   By: jawosylu <jawosylu@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/03 12:00:00 by jawosylu          #+#    #+#             */
-/*   Updated: 2026/10/05 16:51:58 by jawosylu         ###   ########.fr       */
+/*   Updated: 2026/10/05 17:53:57 by jawosylu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,7 @@ int get_both_dongles(t_coder *coder, t_config *config)
 		first = coder->right;
 		second = coder->left;
 	}
-	if (!acquire_dongle(config, first, coder))
-		return (FAIL);
-	if (!acquire_dongle(config, second, coder))
-	{
-		return_dongle(first, config);
-		return (FAIL);
-	}
-	return (SUCESS);
+	return (take_both_dongles(coder, first, second));
 }
 
 int	coder_compile(t_coder *coder)
@@ -78,7 +71,7 @@ void	*normal_routine(void *arg)
 	coder = (t_coder *)arg;
 	if (!coder)
 		return (NULL);
-	while (coder->times_compiled < coder->config->number_of_compiles_required)
+	while (!get_stop(coder->config))
 	{
 		if (!get_both_dongles(coder, coder->config))
 			return (NULL);

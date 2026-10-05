@@ -10,7 +10,9 @@ SRC = src/main.c \
 	src/routine.c \
 	src/heap.c \
 	src/simulation.c \
-	src/dongle.c
+	src/dongle.c \
+	src/monitor.c \
+	src/acquire_two_dongles.c
 
 OBJ = $(SRC:.c=.o)
 

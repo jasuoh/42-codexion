@@ -6,7 +6,7 @@
 /*   By: jawosylu <jawosylu@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/05 14:05:49 by jawosylu          #+#    #+#             */
-/*   Updated: 2026/10/05 14:21:17 by jawosylu         ###   ########.fr       */
+/*   Updated: 2026/10/05 17:42:27 by jawosylu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ int start_sim(t_config *config)
     }
     i++;
   }
+	if (pthread_create(&config->monitor_thread, NULL, monitor_routine, config))
+		set_stop(config);
+	else
+		config->monitor_init = 1;
   return (i);
 }
 
@@ -40,4 +44,6 @@ void end_sim(t_config *config, int coders)
   i = 0;
   while (i < coders)
     pthread_join(config->coders[i++].thread, NULL);
+	if (config->monitor_init == 1)
+		pthread_join(config->monitor_thread, NULL);
 }

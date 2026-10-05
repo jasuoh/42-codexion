@@ -6,7 +6,7 @@
 /*   By: jawosylu <jawosylu@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/23 11:19:19 by jawosylu          #+#    #+#             */
-/*   Updated: 2026/10/05 14:53:05 by jawosylu         ###   ########.fr       */
+/*   Updated: 2026/10/05 17:41:06 by jawosylu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	coders = start_sim(config);
+	if (!config->monitor_init)
+		return (1);
 	end_sim(config, coders);
 	nb_of_coders = config->nb_of_coders;
 	cleanup(config);

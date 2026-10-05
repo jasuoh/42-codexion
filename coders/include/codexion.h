@@ -6,7 +6,7 @@
 /*   By: jawosylu <jawosylu@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/23 11:19:09 by jawosylu          #+#    #+#             */
-/*   Updated: 2026/10/05 16:37:50 by jawosylu         ###   ########.fr       */
+/*   Updated: 2026/10/05 17:53:37 by jawosylu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ typedef struct s_config
 	int				coders_ready;
 	t_dongle		*dongles;
 	int				dongles_ready;
+	pthread_t		monitor_thread;
+	int	monitor_init;
 }	t_config;
 
 int			check_args(int argc, char **argv);
@@ -116,5 +118,10 @@ int start_sim(t_config *config);
 void end_sim(t_config *config, int coders);
 int	acquire_dongle(t_config *config, t_dongle *dongle, t_coder *coder);
 void return_dongle(t_dongle *dongle, t_config *config);
+void *monitor_routine(void *arg);
+t_request get_request(t_coder *coder);
+struct timespec get_wakeup_time(void);
+int	can_get_dongle(t_dongle *dongle, t_coder *coder);
+int take_both_dongles(t_coder *coder, t_dongle *first, t_dongle *second);
 
 #endif

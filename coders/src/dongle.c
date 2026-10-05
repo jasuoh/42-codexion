@@ -6,13 +6,13 @@
 /*   By: jawosylu <jawosylu@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/05 15:45:43 by jawosylu          #+#    #+#             */
-/*   Updated: 2026/10/05 16:53:55 by jawosylu         ###   ########.fr       */
+/*   Updated: 2026/10/05 17:47:55 by jawosylu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/codexion.h"
 
-static struct timespec get_wakeup_time(void)
+struct timespec get_wakeup_time(void)
 {
 	struct timespec returnval;
 	long tt;
@@ -23,14 +23,14 @@ static struct timespec get_wakeup_time(void)
 	return (returnval);
 }
 /* Use only when dongle mutex is locked*/
-static int	can_get_dongle(t_dongle *dongle, t_coder *coder)
+int	can_get_dongle(t_dongle *dongle, t_coder *coder)
 {
 	if (dongle->queue.items[0].coder == coder && dongle->state == FREE && get_time_in_ms() >= dongle->available_at)
 		return (SUCESS);
 	return (FAIL);
 }
 
-static t_request get_request(t_coder *coder)
+t_request get_request(t_coder *coder)
 {
 	t_request request;
 	request.coder = coder;
@@ -54,7 +54,7 @@ int	acquire_dongle(t_config *config, t_dongle *dongle, t_coder *coder)
 	}
 	while (!get_stop(config) && !(can_get_dongle(dongle, coder)))
 	{
-		struct timespec waiting_time = get_wakeup_time();
+		waiting_time = get_wakeup_time();
 		pthread_cond_timedwait(&dongle->cond, &dongle->mutex, &waiting_time);
 	}
 	if (get_stop(config))
