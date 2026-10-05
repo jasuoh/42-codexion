@@ -7,7 +7,9 @@ SRC = src/main.c \
 	src/argparse.c \
 	src/helpfunc.c \
 	src/init.c \
-	src/routine.c
+	src/routine.c \
+	src/heap.c \
+	src/simulation.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: jawosylu <jawosylu@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/23 11:19:09 by jawosylu          #+#    #+#             */
-/*   Updated: 2026/09/23 21:07:21 by jawosylu         ###   ########.fr       */
+/*   Updated: 2026/10/05 14:46:13 by jawosylu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,13 @@ int			init_all(t_config *config);
 void		cleanup(t_config *config);
 void		*normal_routine(void *arg);
 long		get_time_in_ms(void);
+void 		log_message(t_config *config, int id, char *action);
+int			get_stop(t_config *config);
+void set_stop(t_config *config);
+int custom_sleep(long time, t_config *config);
+int heap_push(t_heap *heap, int scheduler, t_request request);
+int heap_pop(t_heap *heap, int scheduler);
+int start_sim(t_config *config);
+void end_sim(t_config *config, int coders);
 
 #endif
