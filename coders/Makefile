@@ -9,7 +9,8 @@ SRC = src/main.c \
 	src/init.c \
 	src/routine.c \
 	src/heap.c \
-	src/simulation.c
+	src/simulation.c \
+	src/dongle.c
 
 OBJ = $(SRC:.c=.o)
 
