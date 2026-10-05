@@ -38,17 +38,18 @@ void	cleanup(t_config *config)
 	free(config);
 }
 
-long get_time_in_ms(void)
+long	get_time_in_ms(void)
 {
-	struct timeval ct;
+	struct timeval	ct;
 
 	gettimeofday(&ct, NULL);
 	return (ct.tv_sec * 1000 + ct.tv_usec / 1000);
 }
 
-void log_message(t_config *config, int id, char *action)
+void	log_message(t_config *config, int id, char *action)
 {
-	long time;
+	long	time;
+
 	pthread_mutex_lock(&config->print_mutex);
 	if (!get_stop(config))
 	{
@@ -58,26 +59,28 @@ void log_message(t_config *config, int id, char *action)
 	pthread_mutex_unlock(&config->print_mutex);
 }
 
-int get_stop(t_config *config)
+int	get_stop(t_config *config)
 {
-	int stop;
+	int	stop;
+
 	pthread_mutex_lock(&config->sim_mutex);
 	stop = config->stop;
 	pthread_mutex_unlock(&config->sim_mutex);
-	return stop;
+	return (stop);
 }
 
-void set_stop(t_config *config)
+void	set_stop(t_config *config)
 {
 	pthread_mutex_lock(&config->sim_mutex);
 	config->stop = 1;
 	pthread_mutex_unlock(&config->sim_mutex);
 }
 
-int custom_sleep(long time, t_config *config)
+int	custom_sleep(long time, t_config *config)
 {
 	long	ct;
-	long nt;
+	long	nt;
+
 	ct = get_time_in_ms();
 	nt = ct + time;
 	while (ct < nt)

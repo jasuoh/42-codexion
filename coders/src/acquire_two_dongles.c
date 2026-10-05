@@ -12,17 +12,20 @@
 
 #include "../include/codexion.h"
 
-int take_both_dongles(t_coder *coder, t_dongle *first, t_dongle *second)
+int	take_both_dongles(t_coder *coder, t_dongle *first, t_dongle *second)
 {
-	t_request request;
-	struct timespec wake;
+	t_request		request;
+	struct timespec	wake;
 
 	request = get_request(coder);
 	pthread_mutex_lock(&first->mutex);
 	pthread_mutex_lock(&second->mutex);
 	heap_push(&first->queue, coder->config->scheduler, request);
 	heap_push(&second->queue, coder->config->scheduler, request);
-	while (!get_stop(coder->config) && !(can_get_dongle(first, coder) && can_get_dongle(second, coder)))
+	while (
+		!get_stop(coder->config)
+		&& !(can_get_dongle(first, coder) && can_get_dongle(second, coder))
+	)
 	{
 		pthread_mutex_unlock(&second->mutex);
 		wake = get_wakeup_time();

@@ -15,8 +15,8 @@
 int	main(int argc, char **argv)
 {
 	t_config	*config;
-	int	coders;
-	int nb_of_coders;
+	int			coders;
+	int			nb_of_coders;
 
 	if (!check_args(argc, argv))
 		return (1);

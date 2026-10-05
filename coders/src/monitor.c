@@ -12,34 +12,38 @@
 
 #include "../include/codexion.h"
 
-void write_burnout(t_coder *coder)
+void	write_burnout(t_coder *coder)
 {
-	long time;
+	long	time;
 
 	pthread_mutex_lock(&coder->config->print_mutex);
 	if (!get_stop(coder->config))
 	{
 		time = get_time_in_ms();
-		printf("%ld %d %s", time - coder->config->start_time, coder->id, "burned out\n");
+		printf(
+			"%ld %d %s",
+			time - coder->config->start_time, coder->id, "burned out\n"
+			);
 		set_stop(coder->config);
 	}
 	pthread_mutex_unlock(&coder->config->print_mutex);
 }
 
-int check_burnout(t_coder *coder)
+int	check_burnout(t_coder *coder)
 {
-	long last;
+	long	last;
+
 	pthread_mutex_lock(&coder->state_mutex);
 	last = coder->last_compile_start;
 	pthread_mutex_unlock(&coder->state_mutex);
 	return (get_time_in_ms() - last >= coder->config->time_to_burnout);
 }
 
-int all_done(t_config *config)
+int	all_done(t_config *config)
 {
-	int i;
-	t_coder *coder;
-	int nb_times_compiled;
+	int		i;
+	t_coder	*coder;
+	int		nb_times_compiled;
 
 	i = 0;
 	while (i < config->nb_of_coders)
@@ -49,17 +53,17 @@ int all_done(t_config *config)
 		nb_times_compiled = coder->times_compiled;
 		pthread_mutex_unlock(&coder->state_mutex);
 		if (nb_times_compiled < config->number_of_compiles_required)
-				return (FAIL);
+			return (FAIL);
 		i++;
 	}
 	return (SUCESS);
 }
 
-void *monitor_routine(void *arg)
+void	*monitor_routine(void *arg)
 {
-	t_coder *coder;
-	t_config *config;
-	int	i;
+	t_coder		*coder;
+	t_config	*config;
+	int			i;
 
 	config = (t_config *)arg;
 	while (!get_stop(config))

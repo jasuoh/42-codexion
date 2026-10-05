@@ -99,29 +99,33 @@ typedef struct s_config
 	t_dongle		*dongles;
 	int				dongles_ready;
 	pthread_t		monitor_thread;
-	int	monitor_init;
+	int				monitor_init;
 }	t_config;
 
-int			check_args(int argc, char **argv);
-t_config	*init_config(char **argv);
-int			init_all(t_config *config);
-void		cleanup(t_config *config);
-void		*normal_routine(void *arg);
-long		get_time_in_ms(void);
-void 		log_message(t_config *config, int id, char *action);
-int			get_stop(t_config *config);
-void set_stop(t_config *config);
-int custom_sleep(long time, t_config *config);
-int heap_push(t_heap *heap, int scheduler, t_request request);
-int heap_pop(t_heap *heap, int scheduler);
-int start_sim(t_config *config);
-void end_sim(t_config *config, int coders);
-int	acquire_dongle(t_config *config, t_dongle *dongle, t_coder *coder);
-void return_dongle(t_dongle *dongle, t_config *config);
-void *monitor_routine(void *arg);
-t_request get_request(t_coder *coder);
-struct timespec get_wakeup_time(void);
-int	can_get_dongle(t_dongle *dongle, t_coder *coder);
-int take_both_dongles(t_coder *coder, t_dongle *first, t_dongle *second);
+int				check_args(int argc, char **argv);
+t_config		*init_config(char **argv);
+int				init_all(t_config *config);
+void			cleanup(t_config *config);
+void			*normal_routine(void *arg);
+long			get_time_in_ms(void);
+void			log_message(t_config *config, int id, char *action);
+int				get_stop(t_config *config);
+void			set_stop(t_config *config);
+int				custom_sleep(long time, t_config *config);
+int				heap_push(t_heap *heap, int scheduler, t_request request);
+int				heap_pop(t_heap *heap, int scheduler);
+int				start_sim(t_config *config);
+void			end_sim(t_config *config, int coders);
+int				acquire_dongle(
+					t_config *config, t_dongle *dongle, t_coder *coder
+					);
+void			return_dongle(t_dongle *dongle, t_config *config);
+void			*monitor_routine(void *arg);
+t_request		get_request(t_coder *coder);
+struct timespec	get_wakeup_time(void);
+int				can_get_dongle(t_dongle *dongle, t_coder *coder);
+int				take_both_dongles(
+					t_coder *coder, t_dongle *first, t_dongle *second
+					);
 
 #endif

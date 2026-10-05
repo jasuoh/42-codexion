@@ -12,10 +12,10 @@
 
 #include "../include/codexion.h"
 
-int get_both_dongles(t_coder *coder, t_config *config)
+int	get_both_dongles(t_coder *coder, t_config *config)
 {
-	t_dongle *first;
-	t_dongle *second;
+	t_dongle	*first;
+	t_dongle	*second;
 
 	first = coder->left;
 	second = coder->right;
