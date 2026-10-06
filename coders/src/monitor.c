@@ -6,7 +6,7 @@
 /*   By: jawosylu <jawosylu@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/05 16:58:22 by jawosylu          #+#    #+#             */
-/*   Updated: 2026/10/05 17:31:36 by jawosylu         ###   ########.fr       */
+/*   Updated: 2026/10/06 09:18:04 by jawosylu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	all_done(t_config *config)
 
 void	*monitor_routine(void *arg)
 {
-	t_coder		*coder;
 	t_config	*config;
 	int			i;
 
@@ -71,10 +70,9 @@ void	*monitor_routine(void *arg)
 		i = 0;
 		while (i < config->nb_of_coders)
 		{
-			coder = &config->coders[i];
-			if (check_burnout(coder))
+			if (check_burnout(&config->coders[i]))
 			{
-				write_burnout(coder);
+				write_burnout(&config->coders[i]);
 				return (NULL);
 			}
 			i++;

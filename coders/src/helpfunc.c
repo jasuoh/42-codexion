@@ -6,7 +6,7 @@
 /*   By: jawosylu <jawosylu@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/23 21:09:20 by jawosylu          #+#    #+#             */
-/*   Updated: 2026/10/05 11:39:27 by jawosylu         ###   ########.fr       */
+/*   Updated: 2026/10/06 09:16:22 by jawosylu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,21 +74,4 @@ void	set_stop(t_config *config)
 	pthread_mutex_lock(&config->sim_mutex);
 	config->stop = 1;
 	pthread_mutex_unlock(&config->sim_mutex);
-}
-
-int	custom_sleep(long time, t_config *config)
-{
-	long	ct;
-	long	nt;
-
-	ct = get_time_in_ms();
-	nt = ct + time;
-	while (ct < nt)
-	{
-		if (get_stop(config))
-			return (FAIL);
-		usleep(500);
-		ct = get_time_in_ms();
-	}
-	return (SUCESS);
 }
