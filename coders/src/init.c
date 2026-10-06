@@ -12,6 +12,12 @@
 
 #include "../include/codexion.h"
 
+/*
+ * init_mutexes - initializes the two global mutexes.
+ * print_mutex serializes the output, sim_mutex protects stop and next_seq.
+ * mutexes_ready counts the successful ones so cleanup destroys only those.
+ * Returns SUCESS or FAIL.
+ */
 static int	init_mutexes(t_config *config)
 {
 	if (pthread_mutex_init(&config->print_mutex, NULL) != 0)
@@ -23,6 +29,13 @@ static int	init_mutexes(t_config *config)
 	return (SUCESS);
 }
 
+/*
+ * init_dongles - allocates one dongle per coder (ids 1..n) and initializes
+ * its mutex and condition variable. Every dongle starts FREE with an empty
+ * queue and available_at 0 (= available immediately).
+ * dongles_ready counts fully initialized dongles for a safe cleanup.
+ * Returns SUCESS or FAIL.
+ */
 static int	init_dongles(t_config *config)
 {
 	t_dongle	*dongle;
@@ -48,8 +61,14 @@ static int	init_dongles(t_config *config)
 	return (SUCESS);
 }
 
-/* coder i: left = dongle i, right = dongle i+1 (last one wraps to 0) */
-/* only 1 coder -> only 1 dongle on the table, right stays NULL */
+/*
+ * init_coders - allocates the coders (ids 1..n) and wires them to dongles.
+ * Array index i: left = dongles[i], right = dongles[i + 1], the last coder
+ * wraps around to dongles[0] -> coder 1 sits next to coder n.
+ * With only 1 coder there is only 1 dongle on the table: right stays NULL.
+ * coders_ready counts initialized state_mutexes for a safe cleanup.
+ * Returns SUCESS or FAIL.
+ */
 static int	init_coders(t_config *config)
 {
 	t_coder	*coder;
@@ -75,7 +94,13 @@ static int	init_coders(t_config *config)
 	return (SUCESS);
 }
 
-/* order matters: coders point to dongles -> dongles first */
+/*
+ * init_all - initializes mutexes, dongles and coders in this order.
+ * Order matters: coders store pointers to dongles -> dongles first.
+ * On FAIL the caller still calls cleanup, which only frees and destroys
+ * what was set up (see the *_ready counters).
+ * Returns SUCESS or FAIL.
+ */
 int	init_all(t_config *config)
 {
 	if (!init_mutexes(config))

@@ -6,30 +6,95 @@
 /*   By: jawosylu <jawosylu@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/03 12:00:00 by jawosylu          #+#    #+#             */
-/*   Updated: 2026/10/03 12:00:00 by jawosylu         ###   ########.fr       */
+/*   Updated: 2026/10/05 17:53:57 by jawosylu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/codexion.h"
 
+/*
+ * get_both_dongles - gets the two dongles a coder needs to compile.
+ * 1 coder: there is only one dongle, so compiling is impossible. The coder
+ * takes it, waits until the monitor stops the simulation (burnout), puts
+ * it back and returns FAIL. The NULL check comes before right->id.
+ * Otherwise the dongles are sorted by id (lower first) and taken at once.
+ * Returns SUCESS when both dongles are held, FAIL when the coder must stop.
+ */
+int	get_both_dongles(t_coder *coder, t_config *config)
+{
+	t_dongle	*first;
+	t_dongle	*second;
+
+	first = coder->left;
+	second = coder->right;
+	if (coder->right == NULL)
+	{
+		acquire_dongle(config, coder->left, coder);
+		custom_sleep(999999999, config);
+		return_dongle(coder->left, config);
+		return (FAIL);
+	}
+	if (coder->right->id < coder->left->id)
+	{
+		first = coder->right;
+		second = coder->left;
+	}
+	return (take_both_dongles(coder, first, second));
+}
+
+/*
+ * coder_compile - compiles for time_to_compile ms (both dongles held).
+ * last_compile_start is reset first (burnout timer counts from the start
+ * of compiling), times_compiled only grows after a complete compile.
+ * Both are written under state_mutex because the monitor reads them.
+ * The mutex is never held while sleeping.
+ * Returns SUCESS, or FAIL if the simulation stopped meanwhile.
+ */
 int	coder_compile(t_coder *coder)
 {
-	(void)coder;
+	pthread_mutex_lock(&coder->state_mutex);
+	coder->last_compile_start = get_time_in_ms();
+	pthread_mutex_unlock(&coder->state_mutex);
+	log_message(coder->config, coder->id, "is compiling");
+	if (!custom_sleep(coder->config->time_to_compile, coder->config))
+		return (FAIL);
+	pthread_mutex_lock(&coder->state_mutex);
+	coder->times_compiled++;
+	pthread_mutex_unlock(&coder->state_mutex);
 	return (SUCESS);
 }
 
+/*
+ * coder_debug - logs "is debugging" and sleeps time_to_debug ms.
+ * Returns SUCESS, or FAIL if the simulation stopped meanwhile.
+ */
 int	coder_debug(t_coder *coder)
 {
-	(void)coder;
+	log_message(coder->config, coder->id, "is debugging");
+	if (!custom_sleep(coder->config->time_to_debug, coder->config))
+		return (FAIL);
 	return (SUCESS);
 }
 
+/*
+ * coder_refactor - logs "is refactoring" and sleeps time_to_refactor ms.
+ * Returns SUCESS, or FAIL if the simulation stopped meanwhile.
+ */
 int	coder_refactor(t_coder *coder)
 {
-	(void)coder;
+	log_message(coder->config, coder->id, "is refactoring");
+	if (!custom_sleep(coder->config->time_to_refactor, coder->config))
+		return (FAIL);
 	return (SUCESS);
 }
 
+/*
+ * normal_routine - thread function of every coder (arg = its t_coder).
+ * Loop until stop: get both dongles -> compile -> give them back ->
+ * debug -> refactor. Dongles are also given back if compiling is cut
+ * short by stop. Coders do not decide when the simulation ends, the
+ * monitor does (burnout or everyone compiled often enough).
+ */
 void	*normal_routine(void *arg)
 {
 	t_coder	*coder;
@@ -37,11 +102,22 @@ void	*normal_routine(void *arg)
 	coder = (t_coder *)arg;
 	if (!coder)
 		return (NULL);
-	while (coder->times_compiled < coder->config->number_of_compiles_required)
+	while (!get_stop(coder->config))
 	{
+		if (!get_both_dongles(coder, coder->config))
+			return (NULL);
 		if (!coder_compile(coder))
-			return (0);
-		coder->times_compiled++;
+		{
+			return_dongle(coder->left, coder->config);
+			return_dongle(coder->right, coder->config);
+			return (NULL);
+		}
+		return_dongle(coder->left, coder->config);
+		return_dongle(coder->right, coder->config);
+		if (!coder_debug(coder))
+			return (NULL);
+		if (!coder_refactor(coder))
+			return (NULL);
 	}
 	return (NULL);
 }
