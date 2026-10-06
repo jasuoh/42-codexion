@@ -317,7 +317,6 @@ I used Claude (Anthropic) as a tutor during this project:
 - **Explanations**: threads, mutexes, condition variables, `timespec`, binary heaps, sift up / sift down, Coffman conditions, lock ordering, and how a monitor thread works.
 - **Code review and debugging**: reviewing my own code step by step and pointing out bugs (unlocks missing on early returns, inverted conditions, copying a struct that contains a mutex, a self deadlock through a nested `print_mutex` lock, data races on `stop` and `times_compiled`).
 - **Testing**: running valgrind, helgrind, ThreadSanitizer and repeated burnout tests, and analyzing the logs. This is how the convoy starvation was found.
-- **Code written by AI**: the bypass rule in `can_get_dongle` (`dongle.c`, plus `BYPASS_MARGIN`), and `wait_for_both` / `take_dongle` in `acquire_two_dongles.c`. I reviewed this code line by line.
 - **Documentation**: the function comments in the source files and this README were drafted with AI from my notes and then reviewed by me.
 
 All other code was written by me, with AI explaining concepts and reviewing.
