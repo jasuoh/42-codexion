@@ -6,7 +6,7 @@
 /*   By: jawosylu <jawosylu@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/05 15:45:43 by jawosylu          #+#    #+#             */
-/*   Updated: 2026/10/05 17:47:55 by jawosylu         ###   ########.fr       */
+/*   Updated: 2026/10/06 09:13:01 by jawosylu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 struct	timespec	get_wakeup_time(void)
 {
 	struct timespec	returnval;
-	long	tt;
+	long			tt;
 
 	tt = get_time_in_ms() + 1;
 	returnval.tv_sec = tt / 1000;
@@ -23,15 +23,20 @@ struct	timespec	get_wakeup_time(void)
 	return (returnval);
 }
 
-/* Use only when dongle mutex is locked*/
 int	can_get_dongle(t_dongle *dongle, t_coder *coder)
 {
-	if (
-		dongle->queue.items[0].coder == coder
-		&& dongle->state == FREE && get_time_in_ms() >= dongle->available_at
-	)
+	t_config	*config;
+	long		now;
+	long		back_at;
+
+	config = coder->config;
+	now = get_time_in_ms();
+	if (dongle->state == USED || now < dongle->available_at)
+		return (FAIL);
+	if (dongle->queue.items[0].coder == coder)
 		return (SUCESS);
-	return (FAIL);
+	back_at = now + config->time_to_compile + config->dongle_cooldown;
+	return (dongle->queue.items[0].deadline > back_at + BYPASS_MARGIN);
 }
 
 t_request	get_request(t_coder *coder)

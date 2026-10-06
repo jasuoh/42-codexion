@@ -33,6 +33,9 @@
 /* a dongle is shared by max. 2 coders -> max. 2 waiting requests */
 # define HEAP_CAP 2
 
+/* ms of safety when passing someone (time truncation + 1 ms wakeup) */
+# define BYPASS_MARGIN 2
+
 typedef struct s_coder		t_coder;
 typedef struct s_request	t_request;
 typedef struct s_heap		t_heap;
