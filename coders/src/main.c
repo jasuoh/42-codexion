@@ -6,17 +6,22 @@
 /*   By: jawosylu <jawosylu@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/23 11:19:19 by jawosylu          #+#    #+#             */
-/*   Updated: 2026/10/05 17:41:06 by jawosylu         ###   ########.fr       */
+/*   Updated: 2026/10/06 09:27:53 by jawosylu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/codexion.h"
 
+/*
+ * main - parse arguments -> init -> start threads -> join -> cleanup.
+ * Returns 0 on a normal run (burnout included), 1 on invalid arguments
+ * or when initialization / thread creation failed.
+ */
 int	main(int argc, char **argv)
 {
 	t_config	*config;
 	int			coders;
-	int			nb_of_coders;
+	int			failed;
 
 	if (!check_args(argc, argv))
 		return (1);
@@ -30,12 +35,8 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	coders = start_sim(config);
-	if (!config->monitor_init)
-		return (1);
+	failed = (coders != config->nb_of_coders || !config->monitor_init);
 	end_sim(config, coders);
-	nb_of_coders = config->nb_of_coders;
 	cleanup(config);
-	if (coders != nb_of_coders)
-		return (1);
-	return (0);
+	return (failed);
 }

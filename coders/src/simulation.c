@@ -12,6 +12,14 @@
 
 #include "../include/codexion.h"
 
+/*
+ * start_sim - sets the start time and launches all threads.
+ * start_time and every last_compile_start are set before a thread runs
+ * (no mutex needed yet). The monitor starts after all coders.
+ * If pthread_create fails, stop is set so the running threads end.
+ * monitor_init tells end_sim whether the monitor exists.
+ * Returns the number of coder threads that were started.
+ */
 int	start_sim(t_config *config)
 {
 	int		i;
@@ -37,6 +45,12 @@ int	start_sim(t_config *config)
 	return (i);
 }
 
+/*
+ * end_sim - waits for the started coder threads and the monitor.
+ * Only joins threads that really exist (coders = return of start_sim,
+ * monitor_init for the monitor). Must run before cleanup, otherwise the
+ * threads would use freed memory.
+ */
 void	end_sim(t_config *config, int coders)
 {
 	int	i;

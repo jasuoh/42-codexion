@@ -12,6 +12,10 @@
 
 #include "../include/codexion.h"
 
+/*
+ * print_error - writes "Error: <msg>\n" to stderr.
+ * Returns FAIL so callers can write: return (print_error("..."));
+ */
 static int	print_error(char *msg)
 {
 	write(2, "Error: ", 7);
@@ -20,7 +24,12 @@ static int	print_error(char *msg)
 	return (FAIL);
 }
 
-/* only digits, not empty, no overflow over INT_MAX */
+/*
+ * parse_number - strict string to int conversion.
+ * Accepts only digits (no sign, no spaces), rejects empty strings and
+ * values above INT_MAX. The result is written to *out.
+ * Returns SUCESS on a valid number, FAIL otherwise.
+ */
 static int	parse_number(char *str, int *out)
 {
 	long	nb;
@@ -43,6 +52,13 @@ static int	parse_number(char *str, int *out)
 	return (SUCESS);
 }
 
+/*
+ * check_args - validates the 8 program arguments.
+ * Arguments 1-7 must be integers in 0..INT_MAX, number_of_coders and
+ * number_of_compiles_required must be > 0, argument 8 must be exactly
+ * "fifo" or "edf". Prints the reason to stderr on error.
+ * Returns SUCESS if everything is valid, FAIL otherwise.
+ */
 int	check_args(int argc, char **argv)
 {
 	int	i;
@@ -64,7 +80,12 @@ int	check_args(int argc, char **argv)
 	return (SUCESS);
 }
 
-/* only call after check_args succeeded */
+/*
+ * init_config - allocates the zeroed config and fills in the arguments.
+ * Only call after check_args succeeded (return values are not rechecked).
+ * The memset makes every counter, flag and pointer start at 0 / NULL.
+ * Returns the new config, or NULL if malloc failed.
+ */
 t_config	*init_config(char **argv)
 {
 	t_config	*config;

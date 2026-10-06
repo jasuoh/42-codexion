@@ -12,7 +12,11 @@
 
 #include "../include/codexion.h"
 
-/* only destroys what was initialized (see *_ready) -> safe after half init */
+/*
+ * cleanup - destroys all mutexes / condition variables and frees memory.
+ * Only destroys what was initialized (see the *_ready counters), so it is
+ * safe after a half finished init. Must only run after all threads joined.
+ */
 void	cleanup(t_config *config)
 {
 	int	i;
@@ -38,6 +42,10 @@ void	cleanup(t_config *config)
 	free(config);
 }
 
+/*
+ * get_time_in_ms - current wall clock time in milliseconds since 1970.
+ * Microseconds are truncated, so the value can be up to 1 ms behind.
+ */
 long	get_time_in_ms(void)
 {
 	struct timeval	ct;
@@ -46,6 +54,13 @@ long	get_time_in_ms(void)
 	return (ct.tv_sec * 1000 + ct.tv_usec / 1000);
 }
 
+/*
+ * log_message - prints "<ms since start> <id> <action>" for a coder.
+ * Holds print_mutex so two lines never mix. The timestamp is taken inside
+ * the lock -> timestamps in the output are always ascending.
+ * Prints nothing once stop is set -> no line after "burned out".
+ * Lock order: print_mutex -> sim_mutex (via get_stop).
+ */
 void	log_message(t_config *config, int id, char *action)
 {
 	long	time;
@@ -59,6 +74,11 @@ void	log_message(t_config *config, int id, char *action)
 	pthread_mutex_unlock(&config->print_mutex);
 }
 
+/*
+ * get_stop - thread safe read of the global stop flag (sim_mutex).
+ * The value is copied before unlocking, so the mutex is always released.
+ * Returns 1 if the simulation is over, 0 otherwise.
+ */
 int	get_stop(t_config *config)
 {
 	int	stop;
@@ -69,6 +89,12 @@ int	get_stop(t_config *config)
 	return (stop);
 }
 
+/*
+ * set_stop - ends the simulation (sim_mutex protected).
+ * One way switch: stop starts at 0 (memset) and only ever becomes 1.
+ * Called by the monitor (burnout / everyone done) or by start_sim when a
+ * thread could not be created.
+ */
 void	set_stop(t_config *config)
 {
 	pthread_mutex_lock(&config->sim_mutex);

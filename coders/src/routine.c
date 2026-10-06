@@ -12,6 +12,14 @@
 
 #include "../include/codexion.h"
 
+/*
+ * get_both_dongles - gets the two dongles a coder needs to compile.
+ * 1 coder: there is only one dongle, so compiling is impossible. The coder
+ * takes it, waits until the monitor stops the simulation (burnout), puts
+ * it back and returns FAIL. The NULL check comes before right->id.
+ * Otherwise the dongles are sorted by id (lower first) and taken at once.
+ * Returns SUCESS when both dongles are held, FAIL when the coder must stop.
+ */
 int	get_both_dongles(t_coder *coder, t_config *config)
 {
 	t_dongle	*first;
@@ -34,6 +42,14 @@ int	get_both_dongles(t_coder *coder, t_config *config)
 	return (take_both_dongles(coder, first, second));
 }
 
+/*
+ * coder_compile - compiles for time_to_compile ms (both dongles held).
+ * last_compile_start is reset first (burnout timer counts from the start
+ * of compiling), times_compiled only grows after a complete compile.
+ * Both are written under state_mutex because the monitor reads them.
+ * The mutex is never held while sleeping.
+ * Returns SUCESS, or FAIL if the simulation stopped meanwhile.
+ */
 int	coder_compile(t_coder *coder)
 {
 	pthread_mutex_lock(&coder->state_mutex);
@@ -48,6 +64,10 @@ int	coder_compile(t_coder *coder)
 	return (SUCESS);
 }
 
+/*
+ * coder_debug - logs "is debugging" and sleeps time_to_debug ms.
+ * Returns SUCESS, or FAIL if the simulation stopped meanwhile.
+ */
 int	coder_debug(t_coder *coder)
 {
 	log_message(coder->config, coder->id, "is debugging");
@@ -56,6 +76,10 @@ int	coder_debug(t_coder *coder)
 	return (SUCESS);
 }
 
+/*
+ * coder_refactor - logs "is refactoring" and sleeps time_to_refactor ms.
+ * Returns SUCESS, or FAIL if the simulation stopped meanwhile.
+ */
 int	coder_refactor(t_coder *coder)
 {
 	log_message(coder->config, coder->id, "is refactoring");
@@ -64,6 +88,13 @@ int	coder_refactor(t_coder *coder)
 	return (SUCESS);
 }
 
+/*
+ * normal_routine - thread function of every coder (arg = its t_coder).
+ * Loop until stop: get both dongles -> compile -> give them back ->
+ * debug -> refactor. Dongles are also given back if compiling is cut
+ * short by stop. Coders do not decide when the simulation ends, the
+ * monitor does (burnout or everyone compiled often enough).
+ */
 void	*normal_routine(void *arg)
 {
 	t_coder	*coder;
