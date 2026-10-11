@@ -1,35 +1,35 @@
 NAME = codexion
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread
-INCLUDE = include/codexion.h
 
-SRC = src/main.c \
-	src/argparse.c \
-	src/helpfunc.c \
-	src/init.c \
-	src/routine.c \
-	src/heap.c \
-	src/simulation.c \
-	src/dongle.c \
-	src/monitor.c \
-	src/acquire_two_dongles.c \
-	src/helpfunc2.c
+SRC_DIR = src
+OBJ_DIR = .obj
+INC_DIR = include
 
-OBJ = $(SRC:.c=.o)
+CFLAGS = -Wall -Wextra -Werror -pthread -I $(INC_DIR)
+INCLUDE = $(INC_DIR)/codexion.h
+
+SRC_FILES = main.c argparse.c helpfunc.c init.c routine.c heap.c simulation.c dongle.c monitor.c acquire_two_dongles.c helpfunc2.c
+
+SRC = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
+OBJ = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+	@echo "$(NAME) created successfully"
 
-%.o: %.c $(INCLUDE)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCLUDE)
+	@mkdir -p $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJ)
+	@rm -rf $(OBJ_DIR)
+	@echo "Removing object files"
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@echo "Removing executable"
 
 re: fclean all
 

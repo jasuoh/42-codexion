@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/codexion.h"
+#include "codexion.h"
 
 /*
  * get_wakeup_time - absolute time "now + 1 ms" for pthread_cond_timedwait.

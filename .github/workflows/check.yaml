@@ -12,25 +12,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up a C Compiler
+
+      - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc make
-      - name: Compiling Process
-        run:
-          make -C coders
-      - name: Installing norminette
+          sudo apt-get install -y valgrind
+          pipx install norminette
+
+      - name: Norminette
+        run: norminette coders
+
+      - name: Compile
+        run: make -C coders
+
+      - name: Valgrind
+        working-directory: coders
         run: |
-          sudo apt-get update
-          sudo apt install python3
-          python3 -m pip install -U norminette
-      - name: Running norminette
-        run:
-          norminette coders
-       - name: Installing valgrind
-         run: |
-           sudo apt-get update
-           sudo apt-get install valgrind
-       - name: Testing valgrind for memory leaks
-         run:
-           make && valgrind ./codexion 2 2000 200 200 200 2 100 fifo
+          valgrind --leak-check=full --show-leak-kinds=all \
+            --errors-for-leak-kinds=all --error-exitcode=1 \
+            ./codexion 2 2000 200 200 200 2 100 fifo
