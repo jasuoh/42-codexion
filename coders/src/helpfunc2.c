@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/codexion.h"
+#include "codexion.h"
 
 /*
  * custom_sleep - sleeps `time` ms, but stops early when the simulation ends.

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/codexion.h"
+#include "codexion.h"
 
 /*
  * init_mutexes - initializes the two global mutexes.

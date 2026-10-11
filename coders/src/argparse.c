@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/codexion.h"
+#include "codexion.h"
 
 /*
  * print_error - writes "Error: <msg>\n" to stderr.

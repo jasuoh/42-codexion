@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/codexion.h"
+#include "codexion.h"
 
 /*
  * get_both_dongles - gets the two dongles a coder needs to compile.

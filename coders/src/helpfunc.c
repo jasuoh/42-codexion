@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/codexion.h"
+#include "codexion.h"
 
 /*
  * cleanup - destroys all mutexes / condition variables and frees memory.
